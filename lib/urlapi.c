@@ -34,6 +34,7 @@
 #include "inet_ntop.h"
 #include "strdup.h"
 #include "idn.h"
+#include "curl_memrchr.h"
 
 /* The last 3 #include files should be in this order */
 #include "curl_printf.h"
@@ -656,6 +657,54 @@ static CURLUcode hostname_check(struct Curl_URL *u, char *hostname,
 #define HOST_IPV4    2
 #define HOST_IPV6    3
 
+static bool finetld(const char *c, size_t len)
+{
+  const char *ldot;
+  const char *end = &c[len];
+  int i;
+
+  for(i = 0; i < 2; i++) {
+    ldot = memrchr(c, '.', len);
+    if(!ldot)
+      ldot = c;
+    else {
+      ldot++;
+      if(!*ldot) {
+        /* this is a trailing dot, we rather want the one before */
+        len--;
+        end = &c[len];
+        /* now loop */
+        continue;
+      }
+    }
+    break;
+  }
+
+  /* this is the last part of the host name, if not only digits it is a
+     host name, otherwise a bad IPv4 address */
+  if(*ldot == '0') {
+    /* hex or octal */
+
+    ldot++;
+    if(Curl_raw_tolower(*ldot) == 'x')
+      /* hex */
+      ldot++;
+    else {
+      /* octal */
+      while(*ldot && ISOCTAL(*ldot))
+        ldot++;
+    }
+    while(*ldot && ISXDIGIT(*ldot))
+      ldot++;
+  }
+  else {
+    /* decimal */
+    while(*ldot && ISDIGIT(*ldot))
+      ldot++;
+  }
+  return (ldot != end) ? TRUE : FALSE;
+}
+
 static int ipv4_normalize(struct dynbuf *host)
 {
   bool done = FALSE;
@@ -667,12 +716,15 @@ static int ipv4_normalize(struct dynbuf *host)
   if(*c == '[')
     return HOST_IPV6;
 
+  if(finetld(c, Curl_dyn_len(host)))
+    return HOST_NAME;
+
   while(!done) {
     char *endp;
     unsigned long l;
     if(!ISDIGIT(*c))
       /* most importantly this doesn't allow a leading plus or minus */
-      return n ? HOST_BAD : HOST_NAME;
+      return HOST_BAD;
     l = strtoul(c, &endp, 0);
 
     parts[n] = l;
@@ -792,6 +844,9 @@ static CURLUcode parse_authority(struct Curl_URL *u,
   result = Curl_parse_port(u, host, has_scheme);
   if(result)
     goto out;
+
+  if(!Curl_dyn_len(host))
+    return CURLUE_NO_HOST;
 
   switch(ipv4_normalize(host)) {
   case HOST_IPV4:
