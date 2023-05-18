@@ -87,13 +87,13 @@ http://test.remote.haxx.se:8990/path/%TESTNUMBER0002 --proxy http://%HOSTIP:%HTT
 <verify>
 <protocol>
 CONNECT test.remote.haxx.se:8990 HTTP/1.1
-Host: test.remote.haxx.se.%TESTNUMBER:8990
+Host: test.remote.haxx.se:8990
 User-Agent: curl/%VERSION
 Proxy-Connection: Keep-Alive
 
 CONNECT test.remote.haxx.se:8990 HTTP/1.1
 Host: test.remote.haxx.se:8990
-Proxy-Authorization: Digest username="silly", realm="weirdorealm", nonce="12345", uri="test.remote.haxx.se.%TESTNUMBER:8990", response="003e36decb4dbf6366b3ecb9b87c24ec"
+Proxy-Authorization: Digest username="silly", realm="weirdorealm", nonce="12345", uri="test.remote.haxx.se:8990", response="003e36decb4dbf6366b3ecb9b87c24ec"
 User-Agent: curl/%VERSION
 Proxy-Connection: Keep-Alive
 

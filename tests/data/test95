@@ -69,7 +69,7 @@ Proxy-Connection: Keep-Alive
 </proxy>
 <protocol nonewline="yes">
 POST /we/want/that/page/%TESTNUMBER HTTP/1.1
-Host: test.%TESTNUMBER:%HTTPPORT
+Host: test:%HTTPPORT
 User-Agent: curl/%VERSION
 Accept: */*
 Content-Length: 27
