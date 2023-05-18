@@ -39,7 +39,7 @@ To: another
 body
 </stdin>
  <command>
-smtp://smtp.%TESTNUMBER:%SMTPPORT/%TESTNUMBER --mail-rcpt recipient@example.com --mail-from sender@example.com -T - -p -x %HOSTIP:%PROXYPORT
+smtp://smtp:%SMTPPORT/%TESTNUMBER --mail-rcpt recipient@example.com --mail-from sender@example.com -T - -p -x %HOSTIP:%PROXYPORT
 </command>
 </client>
 
@@ -61,8 +61,8 @@ body
 .
 </upload>
 <proxy>
-CONNECT smtp.%TESTNUMBER:%SMTPPORT HTTP/1.1
-Host: smtp.%TESTNUMBER:%SMTPPORT
+CONNECT smtp:%SMTPPORT HTTP/1.1
+Host: smtp:%SMTPPORT
 User-Agent: curl/%VERSION
 Proxy-Connection: Keep-Alive
 

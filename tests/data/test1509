@@ -60,7 +60,7 @@ proxy
 simple multi http:// through proxytunnel with authentication info
  </name>
  <command>
-http://the.old.moo.%TESTNUMBER:%HTTPPORT/%TESTNUMBER %HOSTIP:%PROXYPORT
+http://the.old.moo:%HTTPPORT/%TESTNUMBER %HOSTIP:%PROXYPORT
 </command>
 <file name="%LOGDIR/test%TESTNUMBER.txt">
 foo
@@ -74,14 +74,14 @@ moo
 # Verify data after the test has been "shot"
 <verify>
 <proxy>
-CONNECT the.old.moo.%TESTNUMBER:%HTTPPORT HTTP/1.1
-Host: the.old.moo.%TESTNUMBER:%HTTPPORT
+CONNECT the.old.moo:%HTTPPORT HTTP/1.1
+Host: the.old.moo:%HTTPPORT
 Proxy-Connection: Keep-Alive
 
 </proxy>
 <protocol>
 GET /%TESTNUMBER HTTP/1.1
-Host: the.old.moo.%TESTNUMBER:%HTTPPORT
+Host: the.old.moo:%HTTPPORT
 Accept: */*
 
 [DISCONNECT]

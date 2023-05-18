@@ -41,15 +41,15 @@ proxy
 HTTP proxy CONNECT (no auth) with proxy returning 407 and closing
  </name>
  <command>
-http://test.remote.haxx.se.%TESTNUMBER:8990/path/%TESTNUMBER0002 --proxy http://%HOSTIP:%HTTPPORT --proxytunnel
+http://test.remote.haxx.se:8990/path/%TESTNUMBER0002 --proxy http://%HOSTIP:%HTTPPORT --proxytunnel
 </command>
 </client>
 
 # Verify data after the test has been "shot"
 <verify>
 <protocol>
-CONNECT test.remote.haxx.se.%TESTNUMBER:8990 HTTP/1.1
-Host: test.remote.haxx.se.%TESTNUMBER:8990
+CONNECT test.remote.haxx.se:8990 HTTP/1.1
+Host: test.remote.haxx.se:8990
 User-Agent: curl/%VERSION
 Proxy-Connection: Keep-Alive
 

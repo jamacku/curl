@@ -50,7 +50,7 @@ lib%TESTNUMBER
 Check same headers are generated with CURLOPT_HEADEROPT == CURLHEADER_UNIFIED
  </name>
  <command>
- http://the.old.moo.%TESTNUMBER:%HTTPPORT/%TESTNUMBER %HOSTIP:%PROXYPORT
+ http://the.old.moo:%HTTPPORT/%TESTNUMBER %HOSTIP:%PROXYPORT
 </command>
 <features>
 proxy
@@ -60,8 +60,8 @@ proxy
 # Verify data after the test has been "shot"
 <verify>
 <proxy>
-CONNECT the.old.moo.%TESTNUMBER:%HTTPPORT HTTP/1.1
-Host: the.old.moo.%TESTNUMBER:%HTTPPORT
+CONNECT the.old.moo:%HTTPPORT HTTP/1.1
+Host: the.old.moo:%HTTPPORT
 Proxy-Connection: Keep-Alive
 User-Agent: Http Agent
 Expect: 100-continue
@@ -69,7 +69,7 @@ Expect: 100-continue
 </proxy>
 <protocol>
 PUT /%TESTNUMBER HTTP/1.1
-Host: the.old.moo.%TESTNUMBER:%HTTPPORT
+Host: the.old.moo:%HTTPPORT
 Accept: */*
 User-Agent: Http Agent
 Expect: 100-continue
