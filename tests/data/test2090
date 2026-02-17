@@ -53,6 +53,7 @@ Accept: */*
 CLIENT_RANDOM %repeat[32 x 9A]% %repeat[48 x BC]%
 </file>
 <stripfile>
+$_ = '' if /^CLIENT_RANDOM / && $seen_cr++
 s/^CLIENT_RANDOM [0-9a-fA-F]{64} [0-9a-fA-F]{96}/CLIENT_RANDOM %repeat[32 x 9A]% %repeat[48 x BC]%/g
 </stripfile>
 </verify>
